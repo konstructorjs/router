@@ -1,0 +1,45 @@
+{
+  "name": "@konstructor/router",
+  "version": "0.0.0",
+  "description": "router wrapper for konstructor",
+  "main": "lib",
+  "scripts": {
+    "dev": "babel --out-dir lib/ --copy-files --watch src/",
+    "prepublish": "npm run compile",
+    "compile": "babel --out-dir lib/ --copy-files src/",
+    "test": "npm run lint",
+    "lint": "eslint *.js src/*"
+  },
+  "files": [
+    "lib"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/konstructorjs/router.git"
+  },
+  "keywords": [
+    "konstructor",
+    "koa",
+    "node"
+  ],
+  "author": "Manthan Mallikarjun",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/konstructorjs/router/issues"
+  },
+  "homepage": "https://github.com/konstructorjs/router#readme",
+  "dependencies": {
+    "koa-router": "^7.4.0"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
+    "eslint": "^4.18.2",
+    "eslint-config-airbnb-base": "^12.1.0",
+    "eslint-plugin-import": "^2.9.0"
+  },
+  "engines": {
+    "node": ">=8",
+    "npm": ">=5"
+  }
+}
