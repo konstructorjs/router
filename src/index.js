@@ -15,7 +15,7 @@ module.exports = class router {
       Endpoint.ctx = ctx;
       Endpoint.next = next;
       Endpoint.ctx.route = endpointString;
-  
+
       Object.keys(app.mixins).forEach((key) => {
         Endpoint[key] = (...args) => {
           args.push(ctx);
@@ -23,14 +23,14 @@ module.exports = class router {
           return app.mixins[key](...args);
         };
       });
-      
+
       const response = await Endpoint.handler();
       if (!Endpoint.ctx.body) {
         Endpoint.ctx.body = response;
       }
       await next();
     };
-    
+
     ['get', 'post', 'put', 'patch', 'delete'].forEach((method) => {
       app[method] = (url, endpointString, beforeMiddleware, afterMiddleware) => {
         let endpoint;
