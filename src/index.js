@@ -2,7 +2,11 @@ const path = require('path');
 const Router = require('koa-router');
 
 module.exports = class router {
-  static setup(app) {
+  constructor(options = {}) {
+    this.sourceDir = (typeof options.sourceDir === 'string') ? options.sourceDir : './src';
+  }
+
+  setup(app) {
     const koaRouter = new Router();
     app.router = koaRouter;
 
@@ -11,7 +15,7 @@ module.exports = class router {
       Endpoint.ctx = ctx;
       Endpoint.next = next;
       Endpoint.ctx.route = endpointString;
-
+  
       Object.keys(app.mixins).forEach((key) => {
         Endpoint[key] = (...args) => {
           args.push(ctx);
@@ -19,19 +23,19 @@ module.exports = class router {
           return app.mixins[key](...args);
         };
       });
-
+      
       const response = await Endpoint.handler();
       if (!Endpoint.ctx.body) {
         Endpoint.ctx.body = response;
       }
       await next();
     };
-
+    
     ['get', 'post', 'put', 'patch', 'delete'].forEach((method) => {
       app[method] = (url, endpointString, beforeMiddleware, afterMiddleware) => {
         let endpoint;
         try {
-          endpoint = require(path.join(process.cwd(), endpointString));
+          endpoint = require(path.join(process.cwd(), this.sourceDir, endpointString));
         } catch (err) {
           throw new Error(`unable to load endpoint '${endpointString}'\n${err.stack.toString()}`);
         }
